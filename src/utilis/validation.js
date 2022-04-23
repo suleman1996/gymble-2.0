@@ -171,3 +171,50 @@ export const forgetPasswordValidation = email => {
     return {valid: true, errors: null};
   }
 };
+
+export const SignUp_Third = (Bname,Address,City,State,Zipcode,PhoneNumber) => {
+  if (Bname === '') {
+    return {
+      valid: false,
+      errors: Bname === '' ? 'Please Enter Business Name' : null,
+    };
+  } else if (Bname.length <= 3) {
+    return {
+    valid: false,
+      errors: Bname.length <= 3 ? 'Business Name must have atleast 3 characters' : null,
+    };
+  } else if (Address === "") {
+    return {
+      valid: false,
+      errors: Address === "" ? 'Please Enter Address' : null,
+    };
+  } else if (Address.length <= 8) {
+    return {
+    valid: false,
+      errors: Address.length <= 8 ? 'Address must have atleast 8 characters' : null,
+    };
+  } else if (City === "") {
+    return {
+      valid: false,
+      errors: City === "" ? 'Please Enter City' : null,
+    };
+  } else if (State === "") {
+    return {
+      valid: false,
+      errors: State === "" ? 'Please Enter State' : null,
+    };
+  } else if (Zipcode === "") {
+    return {
+      valid: false,
+      errors: Zipcode === "" ? 'Please Enter Zipcode' : null,
+    };
+  } else if (PhoneNumber === "") {
+    return {
+      valid: false,
+      errors: PhoneNumber === "" ? 'Please Enter PhoneNumber' : null,
+    };
+  }
+  else {
+    return {valid: true, errors: null};
+  }
+};

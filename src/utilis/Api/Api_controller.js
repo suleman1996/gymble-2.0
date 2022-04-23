@@ -6,7 +6,7 @@ const Login_api = async body => {
 };
 
 const Signup_api = async body => {
-  const Test = await post_request({target: '/v2/user/register', body: body});
+  const Test = await post_request({target: '/v2/business/vendor-signup', body: body});
   return Test;
 };
 const Social_login = async body => {

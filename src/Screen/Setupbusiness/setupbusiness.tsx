@@ -1,33 +1,58 @@
 import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
+import { SafeAreaView, View, Image, Text, ScrollView, Alert } from 'react-native';
 import {FormInput} from '../../utilis/Text_input';
 import Button from '../../Components/Button/button';
-import {
-  BusinessName,
-  AddressIcon,
-  CityIcon,
-  StateIcon,
-  ZipCodeIcon,
-  PhonenmberIcon,
-} from '../../Svgs/setupBusiness/Icons';
+import { BusinessName, AddressIcon, CityIcon, StateIcon, ZipCodeIcon, PhonenmberIcon} from '../../Svgs/setupBusiness/Icons';
 import styles from './style';
+import { SignUp_Third } from '../../utilis/validation';
+import { Signup_api } from '../../utilis/Api/Api_controller';
+import Toast from 'react-native-simple-toast';
 
-const SetupBusiness: React.FC<any> = ({navigation}) => {
-  const [Lfocus, setLFocus] = useState(false);
+const SetupBusiness: React.FC<any> = ({navigation,route}) => {  
+  var Data=route.params;
+  
+  const [Bname, setBname] = useState(false);
   const [Afocus, setAFocus] = useState(false);
   const [Cfocus, setCFocus] = useState(false);
   const [Sfocus, setSFocus] = useState(false);
   const [Zfocus, setZFocus] = useState(false);
   const [Pfocus, setPFocus] = useState(false);
+  const [errors, setErrors] = useState('');
+  const [loading, setLoading] = useState(false);
 
+const Submit=async()=>{
+  let validate = SignUp_Third(Bname, Afocus, Cfocus, Sfocus, Zfocus, Pfocus);
+  if (validate.valid == false) {
+    setErrors(validate.errors);
+  } else {
+    setErrors('');
+    let body = {
+        name: Data.res.name,
+        email: Data.res.email,
+        password: Data.res.password,
+        confirm_password: Data.res.password,
+        account_type:Data.accountType,
+        business_name: Bname,
+        state: Sfocus,
+        city: Cfocus,
+        street1: Afocus,
+        postcode: Zfocus,
+        contact_number : Pfocus
+      };      
+      setLoading(true);
+      let res = await Signup_api(body);
+      setLoading(false);
+      if (res.data?.success === true) {
+        setLoading(false);
+        Toast.show(res.data.message, Toast.LONG);
+        alert("gggggg");
+        // navigation.navigate('accounttype');
+      } else {
+        setLoading(false);
+        Toast.show('Something went wrong', Toast.LONG);
+      }
+  }
+}
   return (
     <SafeAreaView style={styles.safeareaview}>
       <View style={styles.view}>
@@ -45,15 +70,13 @@ const SetupBusiness: React.FC<any> = ({navigation}) => {
           <View
             style={[
               styles.forminputView,
-              {borderColor: Lfocus ? '#000' : '#F2F3F5'},
+              {borderColor: Bname ? '#000' : '#F2F3F5'},
             ]}>
             <BusinessName style={styles.userIcon} />
             <FormInput
               placeholder={'Business Name'}
               placeholderTextColor="#798293"
-              onChangeText={text => {
-                setLFocus(text);
-              }}
+              onChangeText={(text) => {setBname(text)}}
               style={{
                 height: 50,
                 borderRadius: 10,
@@ -172,17 +195,7 @@ const SetupBusiness: React.FC<any> = ({navigation}) => {
               }}
             />
           </View>
-          <Button
-            text={'Continue'}
-            color={'#fff'}
-            backgroundColor={'#4AB5E3'}
-            fontSize={15}
-            height={50}
-            width={'100%'}
-            borderWidth={1}
-            marginTop={30}
-            marginBottom={10}
-          />
+          <Button onPress={Submit} text={'Continue'} color={'#fff'} backgroundColor={'#4AB5E3'} fontSize={15} height={50} width={'100%'} borderWidth={1} marginTop={30} marginBottom={10}/>
         </ScrollView>
       </View>
     </SafeAreaView>

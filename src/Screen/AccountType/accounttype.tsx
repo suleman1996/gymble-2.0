@@ -7,8 +7,8 @@ import {DownarrowIcon} from '../../BottomTab/Home/Svgs/Icons';
 import AccountBottomsheet from './component/Bottomsheet';
 import styles from './style';
 
-const AccountType: React.FC<any> = ({navigation}) => {
-  const [Lfocus, setLFocus] = useState(false);
+const AccountType: React.FC<any> = ({navigation,route}) => {
+  var res=route.params;
   const refRBSheet = useRef();
   const rbsheetOpen = () => {
     refRBSheet.current.open();
@@ -39,7 +39,7 @@ const AccountType: React.FC<any> = ({navigation}) => {
         <View
           style={[
             styles.forminputView,
-            {borderColor: Lfocus ? '#000' : '#F2F3F5'},
+            {borderColor: '#F2F3F5'},
           ]}>
           <TouchableOpacity
             style={{flexDirection: 'row'}}
@@ -78,7 +78,9 @@ const AccountType: React.FC<any> = ({navigation}) => {
         </RBSheet>
 
         <Button
-          onPress={() => navigation.navigate('setupbusiness')}
+          onPress={() =>{
+            navigation.navigate('setupbusiness',{res,accountType:type})
+          }}
           text={'Continue'}
           color={'#fff'}
           backgroundColor={'#4AB5E3'}
