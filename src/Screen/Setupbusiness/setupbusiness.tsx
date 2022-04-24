@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import { SafeAreaView, View, Image, Text, ScrollView, Alert } from 'react-native';
 import {FormInput} from '../../utilis/Text_input';
 import Button from '../../Components/Button/button';
@@ -10,13 +10,18 @@ import Toast from 'react-native-simple-toast';
 
 const SetupBusiness: React.FC<any> = ({navigation,route}) => {  
   var Data=route.params;
+
+  useEffect(()=>{
+    console.log(Data)
+  })
+
   
-  const [Bname, setBname] = useState(false);
-  const [Afocus, setAFocus] = useState(false);
-  const [Cfocus, setCFocus] = useState(false);
-  const [Sfocus, setSFocus] = useState(false);
-  const [Zfocus, setZFocus] = useState(false);
-  const [Pfocus, setPFocus] = useState(false);
+  const [Bname, setBname] = useState('');
+  const [Afocus, setAFocus] = useState('');
+  const [Cfocus, setCFocus] = useState('');
+  const [Sfocus, setSFocus] = useState('');
+  const [Zfocus, setZFocus] = useState('');
+  const [Pfocus, setPFocus] = useState('');
   const [errors, setErrors] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -41,16 +46,11 @@ const Submit=async()=>{
       };      
       setLoading(true);
       let res = await Signup_api(body);
-      setLoading(false);
-      if (res.data?.success === true) {
-        setLoading(false);
-        Toast.show(res.data.message, Toast.LONG);
-        alert("gggggg");
-        // navigation.navigate('accounttype');
-      } else {
-        setLoading(false);
-        Toast.show('Something went wrong', Toast.LONG);
-      }
+      console.log(res.data)
+      if(res.data){
+        Toast.show('Sign Up successfully.Email verification link has been sent to your email.', Toast.LONG);
+        navigation.navigate('login')
+      }  
   }
 }
   return (
@@ -76,7 +76,8 @@ const Submit=async()=>{
             <FormInput
               placeholder={'Business Name'}
               placeholderTextColor="#798293"
-              onChangeText={(text) => {setBname(text)}}
+              onChangeText={(text) => {setErrors(''),setBname(text)}}
+              error={errors === "Please Enter Business Name" ? "Please Enter Business Name" : null || errors === "Business Name must have atleast 3 characters" ? "Must have atleast 3 characters":null }
               style={{
                 height: 50,
                 borderRadius: 10,
@@ -96,9 +97,8 @@ const Submit=async()=>{
             <FormInput
               placeholder={'Address'}
               placeholderTextColor="#798293"
-              onChangeText={text => {
-                setAFocus(text);
-              }}
+              onChangeText={text => {setErrors(""),setAFocus(text)}}
+              error={errors === "Please Enter Address" ? "Please Enter Address" : null || errors === "Address must have atleast 8 characters"?"Address must have atleast 8 characters":null}
               style={{
                 height: 50,
                 borderRadius: 10,
@@ -118,9 +118,8 @@ const Submit=async()=>{
             <FormInput
               placeholder={'City'}
               placeholderTextColor="#798293"
-              onChangeText={text => {
-                setCFocus(text);
-              }}
+              onChangeText={text => {setErrors(''),setCFocus(text)}}
+              error={errors === "Please Enter City" ? "Please Enter City" : null}
               style={{
                 height: 50,
                 borderRadius: 10,
@@ -140,9 +139,8 @@ const Submit=async()=>{
             <FormInput
               placeholder={'State'}
               placeholderTextColor="#798293"
-              onChangeText={text => {
-                setSFocus(text);
-              }}
+              onChangeText={text => {setErrors(''),setSFocus(text)}}
+              error={errors === "Please Enter State" ? "Please Enter State" : null}
               style={{
                 height: 50,
                 borderRadius: 10,
@@ -162,9 +160,8 @@ const Submit=async()=>{
             <FormInput
               placeholder={'Zip Code'}
               placeholderTextColor="#798293"
-              onChangeText={text => {
-                setZFocus(text);
-              }}
+              onChangeText={text => {setErrors(''),setZFocus(text)}}
+              error={errors === "Please Enter Zipcode" ? "Please Enter Zipcode" : null}
               style={{
                 height: 50,
                 borderRadius: 10,
@@ -184,9 +181,8 @@ const Submit=async()=>{
             <FormInput
               placeholder={'Phone Number'}
               placeholderTextColor="#798293"
-              onChangeText={text => {
-                setPFocus(text);
-              }}
+              onChangeText={text => {setErrors(''),setPFocus(text)}}
+              error={errors === "Please Enter PhoneNumber" ? "Please Enter PhoneNumber" : null}
               style={{
                 height: 50,
                 borderRadius: 10,

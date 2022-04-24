@@ -73,17 +73,6 @@ export const Signup_validation = (
   }
 };
 
-export const addTime = time => {
-  if (time === '') {
-    return {
-      valid: false,
-      errors: time === '' ? 'Please Add Time' : null,
-    };
-  } else {
-    return {valid: true, errors: null};
-  }
-};
-
 export const updateValidation = (name, lastname, email) => {
   let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
   if (name === '') {
@@ -162,12 +151,14 @@ export const forgetPasswordValidation = email => {
       valid: false,
       errors: email === '' ? 'Please Enter Your Email' : null,
     };
-  } else if (reg.test(email) === false) {
-    return {
-      valid: false,
-      errors: reg.test(email) === false ? 'Email format is invalid' : null,
-    };
-  } else {
+  }
+  //  else if (reg.test(email) === false) {
+  //   return {
+  //     valid: false,
+  //     errors: reg.test(email) === false ? 'Email format is invalid' : null,
+  //   };
+  // } 
+  else {
     return {valid: true, errors: null};
   }
 };
@@ -178,20 +169,20 @@ export const SignUp_Third = (Bname,Address,City,State,Zipcode,PhoneNumber) => {
       valid: false,
       errors: Bname === '' ? 'Please Enter Business Name' : null,
     };
-  } else if (Bname.length <= 3) {
+  } else if (Bname.length < 3) {
     return {
     valid: false,
-      errors: Bname.length <= 3 ? 'Business Name must have atleast 3 characters' : null,
+      errors: Bname.length < 3 ? 'Business Name must have atleast 3 characters' : null,
     };
   } else if (Address === "") {
     return {
       valid: false,
       errors: Address === "" ? 'Please Enter Address' : null,
     };
-  } else if (Address.length <= 8) {
+  } else if (Address.length < 8) {
     return {
     valid: false,
-      errors: Address.length <= 8 ? 'Address must have atleast 8 characters' : null,
+      errors: Address.length < 8 ? 'Address must have atleast 8 characters' : null,
     };
   } else if (City === "") {
     return {

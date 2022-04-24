@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderRadius: 10,
         borderWidth: 1,
-        marginTop: 5
+        marginTop: 5,
+        flex:1
     },
     userIcon: {
         marginHorizontal: 10, height: 24, width: 24, alignSelf: 'center', flex: 1
