@@ -1,22 +1,11 @@
-import React, {useState} from 'react';
-import {
-  Text,
-  View,
-  SafeAreaView,
-  ImageBackground,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, SafeAreaView, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import Introo from '../../Components/Intro/intro';
 import Tabs from '../../BottomTab/Tab/tab';
 import styles from './style';
-import {ScrollView} from 'react-native-gesture-handler';
 
-const Intro: React.FC<any> = ({navigation}) => {
+const Intro: React.FC<any> = ({ navigation }) => {
   const [show, setShow] = useState(false);
-  // const [next, setNext] = useState(0);
-  const {height} = Dimensions.get('window');
   const renderNextButton = () => {
     return (
       <>
@@ -25,9 +14,7 @@ const Intro: React.FC<any> = ({navigation}) => {
         </TouchableOpacity>
         <View style={styles.bottomview}>
           <Text style={styles.rendertext2}>Already have an account?</Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('login')}
-            style={styles.renderview}>
+          <TouchableOpacity onPress={() => navigation.navigate('login')} style={styles.renderview}>
             <Text style={styles.rendertext3}>Login</Text>
           </TouchableOpacity>
         </View>
@@ -58,14 +45,13 @@ const Intro: React.FC<any> = ({navigation}) => {
     );
   };
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <>
-        {/* <ScrollView  showsVerticalScrollIndicator={false}> */}
         <ImageBackground
           source={item.ImageBackground}
           resizeMode={'stretch'}
-          style={{flex: 1}}>
+          style={{ flex: 1 }}>
           <TouchableOpacity onPress={onSkip} style={styles.skip}>
             <Text style={styles.textskip}>Skip</Text>
           </TouchableOpacity>
@@ -74,12 +60,11 @@ const Intro: React.FC<any> = ({navigation}) => {
           <Text style={styles.title1}>{item.title1}</Text>
           <Text style={styles.text}>{item.text}</Text>
         </ImageBackground>
-        {/* </ScrollView> */}
       </>
     );
   };
   return (
-    <ScrollView contentContainerStyle={{height}} style={styles.safeareaview}>
+    <SafeAreaView style={styles.safeareaview}>
       {show ? (
         <Tabs />
       ) : (
@@ -96,7 +81,7 @@ const Intro: React.FC<any> = ({navigation}) => {
           }}
         />
       )}
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 const slides = [

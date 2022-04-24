@@ -1,7 +1,7 @@
 import {post_request, get_request} from './Requests';
 
 const Login_api = async body => {
-  const Test = await post_request({target: '/v2/login', body: body});
+  const Test = await post_request({target: '/v2/business/login', body: body});
   return Test;
 };
 
