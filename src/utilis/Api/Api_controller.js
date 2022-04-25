@@ -1,33 +1,36 @@
-import {post_request, get_request} from './Requests';
+import { post_request, get_request } from './Requests';
 
 const Login_api = async body => {
-  const Test = await post_request({target: '/v2/business/login', body: body});
+  const Test = await post_request({ target: '/v2/business/login', body: body });
   return Test;
 };
-
+const ForgotPassword_api = async body => {
+  const Test = await post_request({ target: '/v2/business/forgot-password', body: body });
+  return Test;
+};
 const Signup_api = async body => {
-  const Test = await post_request({target: '/v2/business/vendor-signup', body: body});
+  const Test = await post_request({ target: '/v2/business/vendor-signup', body: body });
   return Test;
 };
 const Social_login = async body => {
-  const Test = await post_request({target: '/auth/social_login', body: body});
+  const Test = await post_request({ target: '/auth/social_login', body: body });
   return Test;
 };
 
 const Email_Verify = async body => {
-  const Test = await post_request({target: '/auth/verify_user', body: body});
+  const Test = await post_request({ target: '/auth/verify_user', body: body });
   return Test;
 };
 const List_Restaurant = async () => {
-  const Test = await post_request({target: '/list_restaurants'});
+  const Test = await post_request({ target: '/list_restaurants' });
   return Test;
 };
 const Search_Restaurant = async () => {
-  const Test = await post_request({target: '/search_restaurant'});
+  const Test = await post_request({ target: '/search_restaurant' });
   return Test;
 };
 const Add_Time = async body => {
-  const Test = await post_request({target: '/book_restaurant', body: body});
+  const Test = await post_request({ target: '/book_restaurant', body: body });
   return Test;
 };
 const Forget_Password = async body => {
@@ -38,31 +41,31 @@ const Forget_Password = async body => {
   return Test;
 };
 const Social_Login = async body => {
-  const Test = await post_request({target: '/auth/social_login', body: body});
+  const Test = await post_request({ target: '/auth/social_login', body: body });
   return Test;
 };
 
 const Side_menu = async link => {
-  const Test = await get_request({target: '/api/menu/' + link});
+  const Test = await get_request({ target: '/api/menu/' + link });
   return Test;
 };
 
 const All_news = async link => {
-  const Test = await get_request({target: 'api/news' + link});
+  const Test = await get_request({ target: 'api/news' + link });
   return Test;
 };
 
 const User_profile = async link => {
-  const Test = await get_request({target: 'api/profile/' + link});
+  const Test = await get_request({ target: 'api/profile/' + link });
   return Test;
 };
 
 const Del_Account = async link => {
-  const Test = await get_request({target: 'api/delete-account' + link});
+  const Test = await get_request({ target: 'api/delete-account' + link });
   return Test;
 };
 const Update_Details = async body => {
-  const Test = await post_request({target: '/auth/social_login', body: body});
+  const Test = await post_request({ target: '/auth/social_login', body: body });
   return Test;
 };
 const Update_Password = async body => {
@@ -97,4 +100,5 @@ export {
   Update_Details,
   Update_Password,
   Reset_Password,
+  ForgotPassword_api
 };

@@ -16,8 +16,8 @@ import styles from './style';
 
 const Login: React.FC<any> = ({ navigation }) => {
   const [passwordVisibility, setPasswordVisibility] = useState(true);
-  const [Lfocus, setLFocus] = useState('kodextech9@gmail.com');
-  const [Pfocus, setPFocus] = useState('Test@123');
+  const [Lfocus, setLFocus] = useState('');
+  const [Pfocus, setPFocus] = useState('');
   const [errors, setErrors] = useState('');
   const [loading, setLoading] = useState(false);
 
