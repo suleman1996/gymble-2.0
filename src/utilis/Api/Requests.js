@@ -1,20 +1,21 @@
 import Link from "./instance";
 import { get_data } from '../AsyncStorage/Controller'
 import axios from "axios";
+import apiCallBackStatus from "./apiCallBackStatus";
 
 const post_request = async ({ target, body, }) => {
     try {
-        // let token = await get_data("USER_TOKEN")
-        const inst = axios.create(
+        let token = await get_data("@TOKEN")
+        const instance = axios.create(
             {
                 baseURL: Link,
-                // timeout: 1000,
                 headers: {
-                    // Authorization: "Bearer  " + token,
+                    Authorization: "Bearer  " + token,
                 }
             });
-        const response = await inst.post(target, body)
-        console.log("post response", response.data);
+        const response = await instance.post(target, body).catch((error) => {
+            apiCallBackStatus({error})
+        })
         return response
 
     } catch (error) {
@@ -26,17 +27,17 @@ const post_request = async ({ target, body, }) => {
 
 const get_request = async (target,link) => {
     try {
-        let token = await get_data("USER_TOKEN")
-        console.log(token);
-        const inst = axios.create(
+        let token = await get_data("@TOKEN")
+        const instance = axios.create(
             {
                 baseURL: Link,
-                // timeout: 1000,
                 headers: {
                     Authorization: "Bearer  " + token
                 }
             });
-        const response = await inst.get(target,link)
+        const response = await instance.get(target,link).catch((error) => {
+            apiCallBackStatus({error})
+        })
         var res = response.data
         return res
 

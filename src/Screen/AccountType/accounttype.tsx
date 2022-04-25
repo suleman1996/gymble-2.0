@@ -1,19 +1,19 @@
-import React, {useState, useRef} from 'react';
-import {SafeAreaView, View, Image, Text, TouchableOpacity} from 'react-native';
+import React, { useState, useRef } from 'react';
+import { SafeAreaView, View, Image, Text, TouchableOpacity } from 'react-native';
 import Button from '../../Components/Button/button';
-import {UserIcon, UserHighlightIcon} from '../../Svgs/Login/IconSvg';
+import { UserIcon, UserHighlightIcon } from '../../Svgs/Login/IconSvg';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {DownarrowIcon} from '../../BottomTab/Home/Svgs/Icons';
+import { DownarrowIcon } from '../../BottomTab/Home/Svgs/Icons';
 import AccountBottomsheet from './component/Bottomsheet';
 import styles from './style';
 
-const AccountType: React.FC<any> = ({navigation,route}) => {
-  var res=route.params;
+const AccountType: React.FC<any> = ({ navigation, route }) => {
   const refRBSheet = useRef();
   const rbsheetOpen = () => {
     refRBSheet.current.open();
   };
   const [type, setType] = useState('Select Account Type');
+  const [showError, setShowError] = useState(false)
 
   const accountType = [
     {
@@ -39,20 +39,23 @@ const AccountType: React.FC<any> = ({navigation,route}) => {
         <View
           style={[
             styles.forminputView,
-            {borderColor: '#F2F3F5'},
+            { borderColor: '#F2F3F5' },
           ]}>
           <TouchableOpacity
-            style={{flexDirection: 'row'}}
+            style={{ flexDirection: 'row' }}
             onPress={rbsheetOpen}>
             {type == 'Select Account Type' ? (
               <UserIcon style={styles.userIcon} />
             ) : (
               <UserHighlightIcon style={styles.userIcon} />
             )}
-            <Text style={{color: '#08101F', alignSelf: 'center'}}>{type}</Text>
+            <Text style={{ color: '#08101F', alignSelf: 'center' }}>{type}</Text>
           </TouchableOpacity>
           <DownarrowIcon style={styles.downarrow} onPress={rbsheetOpen} />
         </View>
+        {showError && type == 'Select Account Type' &&
+          <Text style={{ color: 'red', margin: 1 }}>Please select the Account Type</Text>
+        }
 
         <RBSheet
           ref={refRBSheet}
@@ -60,8 +63,8 @@ const AccountType: React.FC<any> = ({navigation,route}) => {
           closeOnDragDown={true}
           closeOnPressMask={false}
           customStyles={{
-            wrapper: {backgroundColor: 'rgba(0,0,0,0.4)'},
-            draggableIcon: {backgroundColor: '#D7DADF'},
+            wrapper: { backgroundColor: 'rgba(0,0,0,0.4)' },
+            draggableIcon: { backgroundColor: '#D7DADF' },
             container: {
               borderTopLeftRadius: 20,
               borderTopRightRadius: 20,
@@ -78,8 +81,12 @@ const AccountType: React.FC<any> = ({navigation,route}) => {
         </RBSheet>
 
         <Button
-          onPress={() =>{
-            navigation.navigate('setupbusiness',{res,accountType:type})
+          onPress={() => {
+            if (type == 'Select Account Type') {
+              setShowError(true)
+            } else {
+              navigation.navigate('setupbusiness', { ...route.params, accountType: type })
+            }
           }}
           text={'Continue'}
           color={'#fff'}

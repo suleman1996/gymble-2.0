@@ -9,57 +9,27 @@ import HideEyeIcon from '../../Svgs/createPassword/hideEyeSvg';
 import Button from '../../Components/Button/button';
 import { Applebutton, FBbutton, Googlebutton } from '../../Components/SocialButtons/socialButton';
 import styles from './style';
-import { Signup_api } from '../../utilis/Api/Api_controller';
 import { Signup_validation } from '../../utilis/validation';
-import Toast from 'react-native-simple-toast';
-import Loader from '../../utilis/Loader';
-import { save_data } from '../../utilis/AsyncStorage/Controller';
-const CreateAccount: React.FC<any> = ({ navigation,route }) => {
+const CreateAccount: React.FC<any> = ({ navigation, route }) => {
   const [passwordVisibility, setPasswordVisibility] = useState(true);
-  const [Lfocus, setLFocus] = useState('');
-  const [Pfocus, setPFocus] = useState('');
-  const [Efocus, setEFocus] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [errors, setErrors] = useState('');
-  const [loading, setLoading] = useState(false);
 
   const onChangeHandler = async () => {
-
-    // let validate = Signup_validation(firstname, lastname, Lfocus, Pfocus);
-    let validate = Signup_validation(Lfocus, Efocus, Pfocus);
-    console.log(validate);
+    let validate = Signup_validation({ name, email, password });
     if (validate.valid == false) {
       setErrors(validate.errors);
+
     } else {
       setErrors('');
-      navigation.navigate("accounttype", { name: Lfocus, email: Efocus, password: Pfocus })
-      // console.log("=============================",Lfocus,Efocus,Pfocus);
-
-      // let body = {
-      //   name: Lfocus,
-      //   email: Efocus,
-      //   password: Pfocus,
-      // };
-      // setLoading(true);
-      // let res = await Signup_api(body);
-      // console.log(res.data)
-      // console.log('hamara error==>', res);
-      // setLoading(false);
-      // if (res.data?.success === true) {
-      //   setLoading(false);
-      //   console.log(res.data)
-      //   Toast.show(res.data.message, Toast.LONG);
-      //   await save_data('TOKEN', res.data.token);
-      //   // navigation.navigate('accounttype');
-      // } else {
-      //   setLoading(false);
-      //   Toast.show('Invalid email address or password', Toast.LONG);
-      // }
+      navigation.navigate("accounttype", { name, email, password })
     }
   };
 
   return (
     <SafeAreaView style={styles.safeareaview}>
-      <Loader animating={loading} />
       <View style={styles.view}>
         <ScrollView>
           <Image
@@ -73,9 +43,9 @@ const CreateAccount: React.FC<any> = ({ navigation,route }) => {
           <View
             style={[
               styles.forminputView,
-              { borderColor: Lfocus ? '#000' : '#F2F3F5' },
+              { borderColor: name ? '#000' : '#F2F3F5' },
             ]}>
-            {!Lfocus ? (
+            {!name ? (
               <UserIcon style={styles.userIcon} />
             ) : (
               <UserHighlightIcon style={styles.userIcon} />
@@ -83,9 +53,10 @@ const CreateAccount: React.FC<any> = ({ navigation,route }) => {
             <FormInput
               placeholder={'Type full name'}
               placeholderTextColor="#798293"
-              onChangeText={text => { setErrors(""), setLFocus(text) }}
+              onChangeText={text => { setErrors(""), setName(text) }}
               error={errors === "Please Enter Your Name" ? "Please Enter Your Name" : null || errors === "Name must should contain 3 letters" ? "Name must should contain 3 letters" : null}
               style={{ height: 50, borderRadius: 10, fontSize: 15, color: 'black' }}
+              value={name}
             />
           </View>
 
@@ -93,9 +64,9 @@ const CreateAccount: React.FC<any> = ({ navigation,route }) => {
           <View
             style={[
               styles.forminputView,
-              { borderColor: Efocus ? '#000' : '#F2F3F5' },
+              { borderColor: email ? '#000' : '#F2F3F5' },
             ]}>
-            {!Efocus ? (
+            {!email ? (
               <EmailIcon style={styles.userIcon} />
             ) : (
               <EmailHighlightIcon style={styles.userIcon} />
@@ -103,14 +74,10 @@ const CreateAccount: React.FC<any> = ({ navigation,route }) => {
             <FormInput
               placeholder={'Enter email'}
               placeholderTextColor="#798293"
-              onChangeText={text => { setErrors(" "), setEFocus(text) }}
+              onChangeText={text => { setErrors(" "), setEmail(text) }}
               error={errors === "Please Enter Your Email" ? "Please Enter Your Email" : null || errors === "Email format is invalid" ? "Email format is invalid" : null}
-              style={{
-                height: 50,
-                borderRadius: 10,
-                fontSize: 15,
-                color: 'black',
-              }}
+              style={{ height: 50, borderRadius: 10, fontSize: 15, color: 'black' }}
+              value={email}
             />
           </View>
 
@@ -118,9 +85,9 @@ const CreateAccount: React.FC<any> = ({ navigation,route }) => {
           <View
             style={[
               styles.forminputView2,
-              { borderColor: Pfocus ? '#000' : '#F2F3F5' },
+              { borderColor: password ? '#000' : '#F2F3F5' },
             ]}>
-            {!Pfocus ? (
+            {!password ? (
               <LockIcon style={styles.userIcon} />
             ) : (
               <LockHighlightIcon style={styles.userIcon} />
@@ -129,26 +96,24 @@ const CreateAccount: React.FC<any> = ({ navigation,route }) => {
               placeholder={'Enter password'}
               placeholderTextColor="#798293"
               secureTextEntry={passwordVisibility}
-              onChangeText={text => { setErrors(" "), setPFocus(text) }}
-              error={errors === "Please Enter Your Password" ? "Please Enter Your Password" : null || errors === "Password must should contain 6 digits" ? "Password must should contain 6 digits" : null}
-              style={{
-                height: 50,
-                borderRadius: 10,
-                fontSize: 15,
-                color: 'black',
-              }}
+              onChangeText={text => { setErrors(" "), setPassword(text) }}
+              error={errors === "Please Enter Your Password" ? "Please Enter Your Password" : null || errors === "Password must should contain 6 digits" ? "Password must should contain 6 digits" : null || errors === "Password Does not have Number" ? "Password must be a combination of Number" : null || errors === "Password Does not have UpperCase" ? "Password must be a combination UpperCase Letters" : null || errors === "Password Does not have LowerCase" ? "Password must be a combination of small, capital letters, numbers and special characters" : null || errors === "Password Does not have Special Character" ? "Password must be a combination of Special Characters" : null}
+              style={{ height: 50, borderRadius: 10, fontSize: 15, color: 'black' }}
+              maxLength={12}
+              value={password}
             />
             {passwordVisibility ? (
-              <EyeIcon
-                style={styles.eyeIcon}
-                onPress={() => setPasswordVisibility(!passwordVisibility)}
-              />
-            ) : (
               <HideEyeIcon
                 style={styles.eyeIcon}
                 onPress={() => setPasswordVisibility(!passwordVisibility)}
               />
-            )}
+            ) : (
+              <EyeIcon
+                style={styles.eyeIcon}
+                onPress={() => setPasswordVisibility(!passwordVisibility)}
+              />
+            )
+            }
           </View>
 
           <Button

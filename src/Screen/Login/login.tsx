@@ -1,35 +1,20 @@
-import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
-import {FormInput} from '../../utilis/Text_input';
-import {
-  EditProfileEmailIcon,
-  EditProfileEmailHighLightIcon,
-} from '../../Svgs/Profile/ProfileVectors';
-import {Login_api} from '../../utilis/Api/Api_controller';
-import {LockIcon, LockHighlightIcon} from '../../Svgs/Login/IconSvg';
+import React, { useState } from 'react';
+import { SafeAreaView, View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { FormInput } from '../../utilis/Text_input';
+import { EditProfileEmailIcon, EditProfileEmailHighLightIcon } from '../../Svgs/Profile/ProfileVectors';
+import { Login_api } from '../../utilis/Api/Api_controller';
+import { LockIcon, LockHighlightIcon } from '../../Svgs/Login/IconSvg';
 import EyeIcon from '../../Svgs/Login/EyeSvg';
 import HideEyeIcon from '../../Svgs/createPassword/hideEyeSvg';
 import Button from '../../Components/Button/button';
-import {loginValidation} from '../../utilis/validation';
+import { loginValidation } from '../../utilis/validation';
 import Toast from 'react-native-simple-toast';
 import Loader from '../../utilis/Loader';
-import {save_data} from '../../utilis/AsyncStorage/Controller';
-import {
-  Applebutton,
-  FBbutton,
-  Googlebutton,
-} from '../../Components/SocialButtons/socialButton';
+import { save_data } from '../../utilis/AsyncStorage/Controller';
+import { Applebutton, FBbutton, Googlebutton } from '../../Components/SocialButtons/socialButton';
 import styles from './style';
 
-const Login: React.FC<any> = ({navigation}) => {
+const Login: React.FC<any> = ({ navigation }) => {
   const [passwordVisibility, setPasswordVisibility] = useState(true);
   const [Lfocus, setLFocus] = useState('');
   const [Pfocus, setPFocus] = useState('');
@@ -46,45 +31,38 @@ const Login: React.FC<any> = ({navigation}) => {
       let body = {
         username: Lfocus,
         password: Pfocus,
+        app_type: "mobile"
       };
       setLoading(true);
       let res = await Login_api(body);
-      // console.log("hamara error==>",res);
-      setLoading(false);
-      if (res.data?.success === true) {
-        console.log(res.data)
-        setLoading(false);
-        // Toast.show(res.data.message, Toast.LONG);
-        await save_data('TOKEN', res.data.token);
-        // navigation.navigate('tab');
+      if (res?.data?.success === true) {
+        Toast.show('SignIn Successfuly', Toast.LONG);
+        await save_data('@TOKEN', res?.data?.token);
+        navigation.navigate('tab')
       } else {
-        setLoading(false);
-        Toast.show('Invalid email address or password', Toast.LONG);
+        Toast.show('Invalid Email Address or Password', Toast.LONG);
       }
+      setLoading(false);
     }
   };
 
-  
+
   return (
     <SafeAreaView style={styles.safeareaview}>
       <Loader animating={loading} />
       <View style={styles.view}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {/* <SafeAreaView style={styles.safeareaview}>
-      <View style={styles.view}>
-        <ScrollView> */}
           <Image
             source={require('../../Assets/Login/Logo.png')}
             style={styles.logo}
           />
           <Text style={styles.text}>Welcome to Gymble Business</Text>
           <Text style={styles.text1}>Let’s get you right real quick</Text>
-
           <Text style={styles.text2}>Email</Text>
           <View
             style={[
               styles.forminputView,
-              {borderColor: Lfocus ? '#000' : '#F2F3F5'},
+              { borderColor: Lfocus ? '#000' : '#F2F3F5' },
             ]}>
             {!Lfocus ? (
               <EditProfileEmailIcon style={styles.userIcon} />
@@ -94,7 +72,7 @@ const Login: React.FC<any> = ({navigation}) => {
             <FormInput
               placeholder={'Enter Email'}
               placeholderTextColor="#798293"
-              onChangeText={text => {setErrors(""),setLFocus(text)}}
+              onChangeText={text => { setErrors(""), setLFocus(text) }}
               error={errors === "Please Enter Your Email" ? "Please Enter Your Email" : null || errors === "Email format is invalid" ? "Email format is invalid" : null}
               style={{
                 height: 50,
@@ -102,7 +80,7 @@ const Login: React.FC<any> = ({navigation}) => {
                 fontSize: 15,
                 color: 'black',
               }}
-              // value={Lfocus}
+              value={Lfocus}
             />
           </View>
 
@@ -110,7 +88,7 @@ const Login: React.FC<any> = ({navigation}) => {
           <View
             style={[
               styles.forminputView2,
-              {borderColor: Pfocus ? '#000' : '#F2F3F5'},
+              { borderColor: Pfocus ? '#000' : '#F2F3F5' },
             ]}>
             {!Pfocus ? (
               <LockIcon style={styles.userIcon} />
@@ -121,15 +99,10 @@ const Login: React.FC<any> = ({navigation}) => {
               placeholder={'Enter password'}
               placeholderTextColor="#798293"
               secureTextEntry={passwordVisibility}
-              onChangeText={text => {setErrors(""),setPFocus(text)}}
+              onChangeText={text => { setErrors(""), setPFocus(text) }}
               error={errors === "Please Enter Your Password" ? "Please Enter Your Password" : null || errors === "Password must should contain 6 digits" ? "Password must should contain 6 digits" : null}
-              style={{
-                height: 50,
-                borderRadius: 10,
-                fontSize: 15,
-                color: 'black',
-              }}
-              // value={Pfocus}
+              style={{ height: 50, borderRadius: 10, fontSize: 15, color: 'black' }}
+              value={Pfocus}
             />
             {passwordVisibility ? (
               <EyeIcon
