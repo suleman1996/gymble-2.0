@@ -25,7 +25,7 @@ const post_request = async ({ target, body, }) => {
 
 }
 
-const get_request = async (target,link) => {
+const get_request = async ({target,link}) => {
     try {
         let token = await get_data("@TOKEN")
         const instance = axios.create(
@@ -38,7 +38,7 @@ const get_request = async (target,link) => {
         const response = await instance.get(target,link).catch((error) => {
             apiCallBackStatus({error})
         })
-        var res = response.data
+        var res = response
         return res
 
     } catch (error) {

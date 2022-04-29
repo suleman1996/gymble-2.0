@@ -35,14 +35,7 @@ const Profile: React.FC<any> = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <View
-          style={{
-            height: 30,
-            marginTop: 10,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
+        <View style={{ height: 30, marginTop: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <ProfileBackIcon
             style={styles.backIcon}
             onPress={() => navigation.goBack()}

@@ -1,12 +1,16 @@
-import React, {useEffect} from 'react';
-import {SafeAreaView, View, Image, Text} from 'react-native';
-import SplashIcon from '../../Svgs/Splash/Icons';
+import React, { useEffect } from 'react';
+import { View, Image, Text } from 'react-native';
 import styles from './style';
-
-const Splash: React.FC<any> = ({navigation}) => {
+import { get_data } from "../../utilis/AsyncStorage/Controller";
+const Splash: React.FC<any> = ({ navigation }) => {
   useEffect(() => {
-    setTimeout(() => {
-      navigation.replace('intro');
+    setTimeout(async () => {
+      let data = await get_data('@TOKEN')
+      if (data) {
+        navigation.navigate('tab')
+      } else {
+        navigation.replace('intro');
+      }
     }, 2000);
   }, []);
 

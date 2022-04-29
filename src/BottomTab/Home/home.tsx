@@ -1,35 +1,17 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {
-  SafeAreaView,
-  View,
-  Image,
-  Text,
-  ScrollView,
-  FlatList,
-  TouchableOpacity,
-  Dimensions,
-  StyleSheet,
-} from 'react-native';
-import {
-  DownarrowIcon,
-  BellIcon,
-  CalenderIcon,
-  TimeIcon,
-  DotIcon,
-} from './Svgs/Icons';
-import {GreenarrowIcon} from '../../Svgs/Revenue/Icons';
+import React, { useRef, useState, useEffect } from 'react';
+import { SafeAreaView, View, Image, Text, ScrollView, FlatList, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
+import { DownarrowIcon, BellIcon, CalenderIcon, TimeIcon, DotIcon } from './Svgs/Icons';
+import { GreenarrowIcon } from '../../Svgs/Revenue/Icons';
 import Button from '../../Components/Button/button';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import Bottomsheet from '../../Components/BottomSheet/Bottomsheet';
-import {RNPicker} from '../../Components/Dropdown/RNPicker';
-import {LineChart} from 'react-native-chart-kit';
+import { LineChart } from 'react-native-chart-kit';
 import styles from './style';
-import {get_data} from '../../utilis/AsyncStorage/Controller';
-import {CrownImage} from '../../Svgs/Login/IconSvg';
-import {ProfileIconCount} from '../../Svgs/Profile/ProfileVectors';
-// import Bottomsheet from '../Office/BottomSheet/Bottomsheet';
+import { get_data } from '../../utilis/AsyncStorage/Controller';
+import { ProfileIconCount } from '../../Svgs/Profile/ProfileVectors';
+import { getBookUserApi } from "../../utilis/Api/Api_controller";
 
-const Home: React.FC<any> = ({navigation}) => {
+const Home: React.FC<any> = ({ navigation }) => {
   const center = [
     {
       image: require('../../BottomTab/Home/Images/center.png'),
@@ -50,12 +32,8 @@ const Home: React.FC<any> = ({navigation}) => {
   ];
   const [dataa, setDataa] = useState('Center 1');
   const refRBSheet = useRef();
-  const rbsheetOpen = () => {
-    refRBSheet.current.open();
-  };
-  const [weeks, setWeek] = useState('');
+  const rbsheetOpen = () => { refRBSheet.current.open() };
   let status = get_data('STATUS');
-
   const personpic = [
     {
       img: require('../Home/Images/test_1.png'),
@@ -77,7 +55,7 @@ const Home: React.FC<any> = ({navigation}) => {
     },
   ];
 
-  const week = [{label: '1 week', value: '1week'}];
+  const week = [{ label: '1 week', value: '1week' }];
 
   const chartConfig = {
     backgroundGradientFrom: '#FFFFFF',
@@ -85,13 +63,23 @@ const Home: React.FC<any> = ({navigation}) => {
     decimalPlaces: 0,
     color: (opacity = 1) => `rgba(74, 181, 227, ${opacity})`,
     labelColor: (opacity = 1) => `rgba(121,130,147, ${opacity})`,
-    style: {borderRadius: 6},
-    propsForDots: {r: '0', strokeWidth: '2', stroke: '#ffa726'},
-    propsForBackgroundLines: {strokeWidth: 0},
+    style: { borderRadius: 6 },
+    propsForDots: { r: '0', strokeWidth: '2', stroke: '#ffa726' },
+    propsForBackgroundLines: { strokeWidth: 0 },
   };
 
+  useEffect(() => {
+    getBookingData()
+  }, [])
+  const getBookingData = async () => {
+    let response = await getBookUserApi({ limit: 1, page: 1, facilityId: 2 })
+    if (response !== "Error" && response?.data?.success) {
+      console.log(response?.data?.data, "this is home page booking data");
+
+    }
+  }
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.view}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.view2}>
@@ -110,13 +98,10 @@ const Home: React.FC<any> = ({navigation}) => {
           <Text style={styles.text3}>Next Booking</Text>
           <TouchableOpacity
             style={styles.view4}
-            onPress={() => navigation.navigate('customerinfo', {item: status})}>
+            onPress={() => navigation.navigate('customerinfo', { item: status })}>
             <View style={styles.dotview}>
               <View style={styles.view5}>
-                <Image
-                  source={require('../Home/Images/test_3.png')}
-                  style={styles.profile}
-                />
+                <Image source={require('../Home/Images/test_3.png')} style={styles.profile} />
                 <View>
                   <Text style={styles.text4}>Mrh Raju</Text>
                   <Text style={styles.text5}>Pure Grind Fitness</Text>
@@ -129,11 +114,11 @@ const Home: React.FC<any> = ({navigation}) => {
             </View>
             <View style={styles.view6}></View>
             <View style={styles.view7}>
-              <View style={{flex: 1}}>
+              <View style={{ flex: 1 }}>
                 <Text style={styles.text6}>Service</Text>
                 <Text style={styles.text7}>Morning Workout</Text>
               </View>
-              <View style={{flex: 1}}>
+              <View style={{ flex: 1 }}>
                 <Text style={styles.text6}>Amentities</Text>
                 <Text style={styles.text7}>Free Coffe,Drinks</Text>
               </View>
@@ -153,11 +138,11 @@ const Home: React.FC<any> = ({navigation}) => {
             onPress={() => navigation.navigate('booking')}
             style={styles.view4}>
             <View style={styles.view7}>
-              <View style={{flex: 1}}>
+              <View style={{ flex: 1 }}>
                 <Text style={styles.text10}>642</Text>
                 <Text style={styles.text11}>Bookings for center 2</Text>
               </View>
-              <View style={{flex: 1}}>
+              <View style={{ flex: 1 }}>
                 <Text style={styles.text10}>642</Text>
                 <Text style={styles.text11}>Free Coffe,Drinks</Text>
               </View>
@@ -171,7 +156,7 @@ const Home: React.FC<any> = ({navigation}) => {
                 marginBottom: 20,
               }}>
               <FlatList
-                style={{paddingStart: 4}}
+                style={{ paddingStart: 4 }}
                 data={personpic}
                 horizontal={true}
                 maxToRenderPerBatch={5}
@@ -196,8 +181,8 @@ const Home: React.FC<any> = ({navigation}) => {
             closeOnDragDown={true}
             closeOnPressMask={true}
             customStyles={{
-              wrapper: {backgroundColor: 'rgba(0,0,0,0.4)'},
-              draggableIcon: {backgroundColor: '#D7DADF'},
+              wrapper: { backgroundColor: 'rgba(0,0,0,0.4)' },
+              draggableIcon: { backgroundColor: '#D7DADF' },
               container: {
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
@@ -312,7 +297,7 @@ const Home: React.FC<any> = ({navigation}) => {
               withOuterLines={false}
               chartConfig={chartConfig}
               bezier
-              style={{marginTop: 8, marginLeft: -40, borderRadius: 10}}
+              style={{ marginTop: 8, marginLeft: -40, borderRadius: 10 }}
             />
           </TouchableOpacity>
         </ScrollView>
@@ -321,7 +306,7 @@ const Home: React.FC<any> = ({navigation}) => {
   );
 };
 
-export const renderItemHorizontal = ({item, index}) => {
+export const renderItemHorizontal = ({ item, index }) => {
   const styles = StyleSheet.create({
     imageContainer: {
       paddingVertical: 10,
@@ -346,7 +331,7 @@ export const renderItemHorizontal = ({item, index}) => {
         {item.img ? (
           <Image style={styles.Flatlistimage} source={item.img} />
         ) : (
-          <ProfileIconCount style={{width: 40, height: 40}} />
+          <ProfileIconCount style={{ width: 40, height: 40 }} />
         )}
       </View>
     </>

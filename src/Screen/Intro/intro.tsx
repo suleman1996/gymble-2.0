@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, SafeAreaView, ImageBackground, Image, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import Introo from '../../Components/Intro/intro';
 import Tabs from '../../BottomTab/Tab/tab';
 import styles from './style';
@@ -9,12 +9,12 @@ const Intro: React.FC<any> = ({ navigation }) => {
   const renderNextButton = () => {
     return (
       <>
-        <TouchableOpacity style={styles.renderNextButton}>
+        <View style={styles.renderNextButton}>
           <Text style={styles.rendertext}>Continue</Text>
-        </TouchableOpacity>
+        </View>
         <View style={styles.bottomview}>
           <Text style={styles.rendertext2}>Already have an account?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('login')} style={styles.renderview}>
+          <TouchableOpacity onPress={() => navigation.replace('login')} style={styles.renderview}>
             <Text style={styles.rendertext3}>Login</Text>
           </TouchableOpacity>
         </View>
@@ -27,61 +27,40 @@ const Intro: React.FC<any> = ({ navigation }) => {
 
   const renderDoneButton = () => {
     return (
-      <>
+      <View>
         <TouchableOpacity
           style={styles.renderNextButton}
-          onPress={() => navigation.navigate('login')}>
+          onPress={() => navigation.replace('login')}>
           <Text style={styles.rendertext}>Get Started</Text>
         </TouchableOpacity>
         <View style={styles.bottomview}>
           <Text style={styles.rendertext2}>Already have an account?</Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('login')}
+            onPress={() => navigation.replace('login')}
             style={styles.renderview}>
             <Text style={styles.rendertext3}>Login</Text>
           </TouchableOpacity>
         </View>
-      </>
+      </View>
     );
   };
 
-  const renderItem = ({ item, index }) => {
-    return (
-      <>
-        <ImageBackground
-          source={item.ImageBackground}
-          resizeMode={'stretch'}
-          style={{ flex: 1 }}>
-          <TouchableOpacity onPress={onSkip} style={styles.skip}>
-            <Text style={styles.textskip}>Skip</Text>
-          </TouchableOpacity>
-          <Image source={item.image} style={styles.image} />
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.title1}>{item.title1}</Text>
-          <Text style={styles.text}>{item.text}</Text>
-        </ImageBackground>
-      </>
-    );
-  };
+
   return (
-    <SafeAreaView style={styles.safeareaview}>
+    <View style={styles.safeareaview}>
       {show ? (
         <Tabs />
       ) : (
         <Introo
           data={slides}
-          renderItem={renderItem}
           renderNextButton={renderNextButton}
           onSkip={onSkip}
           renderDoneButton={renderDoneButton}
           showNextButton={true}
           goToSlide
-          onSlideChange={data => {
-            console.log(data);
-          }}
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 const slides = [

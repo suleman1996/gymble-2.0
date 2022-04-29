@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { AsyncStorage } from 'react-native';
+import Toast from "react-native-simple-toast";
 
 const get_data = async key => {
   try {
@@ -18,4 +18,18 @@ const save_data = async (key, data) => {
     console.log(error);
   }
 };
-export {save_data, get_data};
+
+const Logout = ({ navigation }) => {
+  AsyncStorage.getAllKeys()
+    .then((keys) => AsyncStorage.multiRemove(keys))
+    .then(() => {
+      navigation.reset({
+        index: 0,
+        routes: [
+          { name: 'login' },
+        ],
+      });
+      Toast.show("Successfully Sign Out", Toast.LONG);
+    })
+};
+export { save_data, get_data, Logout };

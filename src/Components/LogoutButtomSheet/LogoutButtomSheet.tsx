@@ -1,10 +1,11 @@
 import React from 'react';
-import {Text, View, SafeAreaView, StyleSheet} from 'react-native';
-import {CrossIcon, DeleteIcon, EditIcon} from '../../BottomTab/Home/Svgs/Icons';
-import {ProfileDotsIcon} from '../../Svgs/Profile/ProfileVectors';
+import { Text, View, SafeAreaView, StyleSheet } from 'react-native';
+import { CrossIcon, DeleteIcon, EditIcon } from '../../BottomTab/Home/Svgs/Icons';
+import { ProfileDotsIcon } from '../../Svgs/Profile/ProfileVectors';
 import Button from '../../Components/Button/button';
-import {useNavigation} from '@react-navigation/native';
-const LogoutButtomSheet: React.FC<any> = ({onPress,cancel}) => {
+import { useNavigation } from '@react-navigation/native';
+import { Logout } from "../../utilis/AsyncStorage/Controller";
+const LogoutButtomSheet: React.FC<any> = ({ onPress, cancel }) => {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -22,7 +23,7 @@ const LogoutButtomSheet: React.FC<any> = ({onPress,cancel}) => {
               alignItems: 'center',
               justifyContent: 'space-between',
             }}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text
                 style={{
                   fontSize: 20,
@@ -44,9 +45,9 @@ const LogoutButtomSheet: React.FC<any> = ({onPress,cancel}) => {
             justifyContent: 'space-between',
             marginHorizontal: 20,
           }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text
-              style={{fontSize: 15, color: '#08101F', marginHorizontal: 20}}>
+              style={{ fontSize: 15, color: '#08101F', marginHorizontal: 20 }}>
               Sorry to see you leave. Are you sure you would like to logout your
               gymble account?
             </Text>
@@ -69,7 +70,7 @@ const LogoutButtomSheet: React.FC<any> = ({onPress,cancel}) => {
               marginTop={10}
               backgroundColor={'#fff'}
               marginBottom={10}
-              onPress={() => navigation.navigate('login')}
+              onPress={() => Logout({ navigation })}
             />
           </View>
           <View>
@@ -133,6 +134,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     height: 50,
   },
-  icon: {height: 18, width: 16},
+  icon: { height: 18, width: 16 },
 });
 export default LogoutButtomSheet;
